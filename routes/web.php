@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [\App\Http\Controllers\Controller::class, 'index'])->name('index');
+
+Route::get('admin', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+
+Route::prefix('admin')->group(function () {
+    Route::resources([
+        'workers' => \App\Http\Controllers\WorkersController::class,
+        'tasks' => \App\Http\Controllers\TasksController::class,
+    ]);
 });
