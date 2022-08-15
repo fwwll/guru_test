@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,7 +17,7 @@ class TasksController extends Controller
      */
     public function list()
     {
-        return response()->json(Task::all(), 200);
+        return response()->json(TaskResource::collection(Task::all()), 200);
     }
 
     /**
@@ -31,7 +32,7 @@ class TasksController extends Controller
 
         if (!$task) return response()->json(['error' => true, 'message' => 'Not found'], 404);
 
-        return response()->json($task, 200);
+        return response()->json(new TaskResource($task), 200);
     }
 
     /**
